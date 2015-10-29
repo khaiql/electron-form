@@ -59,9 +59,20 @@ def add_packages_items(sheet, start_row, package_items, style = 0)
     row = start_row + index
     sheet.merge_cells("B#{row}:F#{row}")
     add_cell(sheet, "B#{row}", package_item[:description])
-    add_cell(sheet, "G#{row}", package_item[:quantity], {}, style)
+    add_cell(sheet, "G#{row}", package_item[:quantity])
     sheet.merge_cells("J#{row}:K#{row}")
-    add_cell(sheet, "J#{row}", package_item[:value], {}, style)
+    add_cell(sheet, "J#{row}", package_item[:value])
+    apply_style(sheet, "B#{row}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "C#{row}:F#{row}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "G#{row}", get_cell_style(sheet, nil, {vertical: :center, horizontal: :center}, [:left, :bottom]))
+    apply_style(sheet, "H#{row}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "I#{row}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "J#{row}", get_cell_style(sheet, nil, {vertical: :center, horizontal: :center}, [:left, :bottom]))
+    apply_style(sheet, "K#{row}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "L#{row}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "M#{row}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "N#{row}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "O#{row}", get_cell_style(sheet, nil, nil, [:bottom, :right]))
   end
 end
 
@@ -106,7 +117,7 @@ wb.styles do |s|
   top_wrapped_text_cell = s.add_style({:alignment => {:vertical => :top, :wrap_text => true}})
   center_left_wrapped_text = s.add_style({:alignment => {:vertical => :center, :wrap_text => true}})
   # borders
-  surrounding_border = s.add_style(:border => Axlsx::STYLE_THIN_BORDER)
+  # surrounding_border = s.add_style(:border => Axlsx::STYLE_THIN_BORDER)
   left_top_border = s.add_style(border: {style: :thin, :color => '000000', edges: [:left, :top]})
   top_right_border = s.add_style(border: {style: :thin, :color => '000000', edges: [:top, :right]})
   right_bottom_border = s.add_style(border: {style: :thin, :color => '000000', edges: [:right, :bottom]})
@@ -144,16 +155,16 @@ wb.styles do |s|
     add_cell(sheet, "K2", "ТАМОЖЕННАЯ ДЕКЛАРАЦИЯ", {bold: true})
 
     sheet.merge_cells("A3:A5")
-    add_cell(sheet, "A3", "From:", {bold: true, size: 7}, surrounding_border)
+    add_cell(sheet, "A3", "From:", {bold: true, size: 7})
 
     add_cell(sheet, "B3", "Name", {size: 7}, top_border)
     add_cell(sheet, "B4", "Фамилия", {}, left_bottom_border)
-    add_cell(sheet, "C3", "", {}, top_right_border)
-    add_cell(sheet, "C4", "", {}, right_bottom_border)
+    add_cell(sheet, "C3", nil, {}, top_right_border)
+    add_cell(sheet, "C4", nil, {}, right_bottom_border)
     add_cell(sheet, "B5", "Business", {size: 7}, left_border)
     add_cell(sheet, "B6", "Компания/Фирма", {}, left_bottom_border)
-    add_cell(sheet, "C5", "", {}, right_border)
-    add_cell(sheet, "C6", "", {}, right_bottom_border)
+    add_cell(sheet, "C5", nil, {}, right_border)
+    add_cell(sheet, "C6", nil, {}, right_bottom_border)
 
     sheet.merge_cells("D3:G4")
     add_cell(sheet, "D3", "Kazpost GmbH", {bold: true}, get_cell_style(sheet, nil, center_alignment, [:top, :right]))
@@ -178,9 +189,9 @@ wb.styles do |s|
 
     add_cell(sheet, "A7", "Из", {bold: true, size: 7}, top_border)
     add_cell(sheet, "B7", "Street", {size: 7}, left_border)
-    add_cell(sheet, "C7", "")
+    add_cell(sheet, "C7", nil)
     add_cell(sheet, "B8", "Улица", {}, left_bottom_border)
-    add_cell(sheet, "C8", "", nil, bottom_border)
+    add_cell(sheet, "C8", nil, nil, bottom_border)
 
     sheet.merge_cells("D7:I8")
     add_cell(sheet, "D7", "Carl-Zeiss-Str., 25, (+49 5131 502 9504)", {bold: true}, street_cell_style)
@@ -191,8 +202,8 @@ wb.styles do |s|
     add_cell(sheet, "B9", "Postcode", {size: 7}, left_border)
     add_cell(sheet, "B10", "Почтовый индекс", {}, left_border)
     apply_style(sheet, "B10", get_cell_style(sheet, nil, nil, [:left]))
-    add_cell(sheet, "C9", "", {}, top_border)
-    add_cell(sheet, "C10", "", {}, bottom_border)
+    add_cell(sheet, "C9", nil, {}, top_border)
+    add_cell(sheet, "C10", nil, {}, bottom_border)
     sheet.merge_cells("D9:E10")
     add_cell(sheet, "D9", "30827", {bold: true}, center_left_wrapped_text)
     apply_style(sheet, "B10:E10", get_cell_style(sheet, nil, nil, [:bottom]))
@@ -207,21 +218,21 @@ wb.styles do |s|
 
     add_cell(sheet, "B11", "Country", {size: 7}, left_top_border)
     add_cell(sheet, "B12", "Страна", {}, left_bottom_border)
-    add_cell(sheet, "C11", "")
-    add_cell(sheet, "C12", "", nil, bottom_border)
+    add_cell(sheet, "C11", nil)
+    add_cell(sheet, "C12", nil, nil, bottom_border)
     sheet.merge_cells("D11:I12")
     add_cell(sheet, "D11", "DE", {bold: true}, center_left_wrapped_text)
     apply_style(sheet, "D12:H12", get_cell_style(sheet, nil, nil, [:bottom]))
     apply_style(sheet, "I12", get_cell_style(sheet, nil, nil, [:bottom, :right]))
     apply_style(sheet, "I11", get_cell_style(sheet, nil, nil, [:right]))
 
-    add_cell(sheet, "A13", "To:", {bold: true, size: 8}, surrounding_border)
-    add_cell(sheet, "A14", "B:", {bold: true, size: 8}, surrounding_border)
+    add_cell(sheet, "A13", "To:", {bold: true, size: 8})
+    add_cell(sheet, "A14", "B:", {bold: true, size: 8})
 
     add_cell(sheet, "B13", "Name", {size: 7})
     add_cell(sheet, "B14", "Фамилия")
-    add_cell(sheet, "C13", "")
-    add_cell(sheet, "C14", "", nil, bottom_border)
+    add_cell(sheet, "C13", nil)
+    add_cell(sheet, "C14", nil, nil, bottom_border)
     sheet.merge_cells("D13:I14")
     add_cell(sheet, "D13", @customer_name, {bold: true}, center_left_wrapped_text)
     apply_style(sheet, "D14:H14", get_cell_style(sheet, nil, nil, [:bottom]))
@@ -230,8 +241,8 @@ wb.styles do |s|
 
     add_cell(sheet, "B15", "Business", {size: 7}, left_top_border)
     add_cell(sheet, "B16", "Компания/Фирма", nil, left_bottom_border)
-    add_cell(sheet, "C15", "", nil, top_border)
-    add_cell(sheet, "C16", "", nil, bottom_border)
+    add_cell(sheet, "C15", nil, nil, top_border)
+    add_cell(sheet, "C16", nil, nil, bottom_border)
     sheet.merge_cells("D15:I16")
     add_cell(sheet, "D15", @customer_business, {bold: true}, center_left_wrapped_text)
     apply_style(sheet, "D16:H16", get_cell_style(sheet, nil, nil, [:bottom]))
@@ -240,8 +251,8 @@ wb.styles do |s|
 
     add_cell(sheet, "B17", "Street", {size: 7}, left_border)
     add_cell(sheet, "B18", "Улица", nil, left_bottom_border)
-    add_cell(sheet, "C17", "")
-    add_cell(sheet, "C18", "", nil, bottom_border)
+    add_cell(sheet, "C17", nil)
+    add_cell(sheet, "C18", nil, nil, bottom_border)
     sheet.merge_cells("D17:I18")
     add_cell(sheet, "D17", @customer_street, {bold: true}, center_left_wrapped_text)
     apply_style(sheet, "D18:H18", get_cell_style(sheet, nil, nil, [:bottom]))
@@ -250,8 +261,8 @@ wb.styles do |s|
 
     add_cell(sheet, "B19", "Postcode", {size: 7}, left_border)
     add_cell(sheet, "B20", "Почтовый индекс", nil, left_bottom_border)
-    add_cell(sheet, "C19", "")
-    add_cell(sheet, "C20", "", nil, bottom_border)
+    add_cell(sheet, "C19", nil)
+    add_cell(sheet, "C20", nil, nil, bottom_border)
     sheet.merge_cells("D19:E20")
     add_cell(sheet, "D19", @customer_postcode, {bold: true}, center_left_wrapped_text)
 
@@ -268,13 +279,11 @@ wb.styles do |s|
 
     add_cell(sheet, "B21", "Country", {size: 7}, left_border)
     add_cell(sheet, "B22", "Страна", nil, left_bottom_border)
-    add_cell(sheet, "C21", "")
-    add_cell(sheet, "C22", "", nil, bottom_border)
+    add_cell(sheet, "C21", nil)
+    add_cell(sheet, "C22", nil, nil, bottom_border)
     sheet.merge_cells("D21:I22")
     add_cell(sheet, "D21", @customer_country_code, {bold: true}, center_left_wrapped_text)
-    apply_style(sheet, "D22:H22", get_cell_style(sheet, nil, nil, [:bottom, :top]))
-    apply_style(sheet, "I22", get_cell_style(sheet, nil, nil, [:bottom, :right]))
-    apply_style(sheet, "I21", get_cell_style(sheet, nil, nil, [:top, :right]))
+
 
     sheet.merge_cells("J4:L4")
     add_cell(sheet, "J4", "No. of item (barcode, if any)", {bold: true}, center_left_wrapped_text)
@@ -301,17 +310,24 @@ wb.styles do |s|
     sheet.merge_cells("J15:O16")
     add_cell(sheet, "J15", @external_item_id, {bold: true}, centered_cell)
 
-    sheet.merge_cells("J17:O19")
-    add_cell(sheet, "J17", "Importer's reference (if any) (taxcode/VAT No./importer code) (optional)\x0D\x0AРеквизиты импортера (если имеются) (ИНН/№НДС/индекс импортера) (факультативно)", {size: 7}, top_wrapped_text_cell)
+    sheet.merge_cells("J17:O17")
+    add_cell(sheet, "J17", "Importer's reference (if any) (taxcode/VAT No./importer code) (optional)", {size: 7}, top_wrapped_text_cell)
+    sheet.merge_cells("J18:O18")
+    add_cell(sheet, "J18", "Реквизиты импортера (если имеются) (ИНН/№НДС/индекс импортера) (факультативно)", {size: 7}, top_wrapped_text_cell)
 
-    sheet.merge_cells("J20:O22")
-    add_cell(sheet, "J20", "Importer's telephone/fax/e-mail (if known)\x0D\x0A№ телефона/факса/e-mail импортера (если известен)", {size: 7}, top_wrapped_text_cell)
+    sheet.merge_cells("J20:O20")
+    add_cell(sheet, "J20", "Importer's telephone/fax/e-mail (if known)", {size: 7}, top_wrapped_text_cell)
+    sheet.merge_cells("J21:O21")
+    add_cell(sheet, "J21", "№ телефона/факса/e-mail импортера (если известен)", {size: 7}, top_wrapped_text_cell)
 
     # details table header
     sheet.merge_cells("B23:F23")
-    add_cell(sheet, "B23", "Detailed description  of contents (1)", {size: 7}, left_top_border)
+    add_cell(sheet, "B23", "Detailed description  of contents (1)", {size: 7})
+    sheet["B23"].row.height = 30
+    sheet["B24"].row.height = 30
     sheet.merge_cells("B24:F24")
-    add_cell(sheet, "B24", "Подробное описание вложения (1)", {size: 7}, left_bottom_border)
+    add_cell(sheet, "B24", "Подробное описание вложения (1)", {size: 7}, center_left_wrapped_text)
+
 
     add_cell(sheet, "G23", "Quantity (2) ", {size: 7}, left_top_border)
     add_cell(sheet, "G24", "Количество (2) ", {size: 7}, left_bottom_border)
@@ -341,13 +357,15 @@ wb.styles do |s|
 
     total_row_index = 25 + @package_items.length
 
-    sheet.merge_cells("H#{total_row_index}:H#{total_row_index + 1}")
-    add_cell(sheet, "H#{total_row_index}", "Total gross weight (4)", {size: 7}, center_left_wrapped_text)
+    # sheet.merge_cells("H#{total_row_index}:H#{total_row_index + 1}")
+    add_cell(sheet, "H#{total_row_index}", "Total gross weight (4)", {size: 7})
+    add_cell(sheet, "H#{total_row_index+1}", "Общий вес брутто (4)", {size: 7})
     sheet.merge_cells("I#{total_row_index}:I#{total_row_index+1}")
     add_cell(sheet, "I#{total_row_index}", '')
 
-    sheet.merge_cells("J#{total_row_index}:J#{total_row_index+1}")
-    add_cell(sheet, "J#{total_row_index}", "Total value (6)\nОбщая стоимость", {size: 8}, center_left_wrapped_text)
+    # sheet.merge_cells("J#{total_row_index}:J#{total_row_index+1}")
+    add_cell(sheet, "J#{total_row_index}", "Total value (6)", {size: 8})
+    add_cell(sheet, "J#{total_row_index+1}", "Общая стоимость", {size: 8})
 
     sheet.merge_cells("K#{total_row_index}:K#{total_row_index+1}")
     add_cell(sheet, "K#{total_row_index}", @total_value, {size: 9}, centered_cell)
@@ -360,30 +378,37 @@ wb.styles do |s|
     footer_row_index = total_row_index + 2
     add_cell(sheet, "B#{footer_row_index}", "Category of item (10)", {size: 7})
     add_cell(sheet, "B#{footer_row_index + 1}", "Категория отправления (10)")
+
     sheet.merge_cells("E#{footer_row_index}:E#{footer_row_index + 1}")
+
     add_cell(sheet, "F#{footer_row_index}", "Commercial sample", {size: 7})
     add_cell(sheet, "F#{footer_row_index + 1}", "Коммерческий образец")
     add_cell(sheet, "H#{footer_row_index}", "Explanation:", {size: 7})
     add_cell(sheet, "H#{footer_row_index + 1}", "Пояснение :")
     sheet.merge_cells("B#{footer_row_index + 2}:B#{footer_row_index + 3}")
+
     add_cell(sheet, "C#{footer_row_index + 2}", "Gift", {size: 7})
     add_cell(sheet, "C#{footer_row_index + 3}", "Подарок")
     sheet.merge_cells("E#{footer_row_index + 2}:E#{footer_row_index+3}")
+
     add_cell(sheet, "F#{footer_row_index + 2}", "Returned goods", {size: 7})
     add_cell(sheet, "F#{footer_row_index + 3}", "Возврат товара")
     sheet.merge_cells("B#{footer_row_index + 4}:B#{footer_row_index + 5}")
+
     add_cell(sheet, "C#{footer_row_index + 4}", " Documents", {size: 7})
     add_cell(sheet, "C#{footer_row_index + 5}", " Документ")
+
     sheet.merge_cells("E#{footer_row_index + 4}:E#{footer_row_index+5}")
     add_cell(sheet, "E#{footer_row_index + 4}", "X", {bold: true, size: 16}, centered_cell)
     add_cell(sheet, "F#{footer_row_index + 4}", "Other", {size: 7})
     add_cell(sheet, "F#{footer_row_index + 5}", "Прочее")
 
+
     sheet.merge_cells("B#{footer_row_index + 6}:K#{footer_row_index + 6}")
     add_cell(sheet, "B#{footer_row_index + 6}", "Comments (11): (e.g.: goodssubject to quarantine, sanitary/phytosanitary inspection or other instructions)", {size: 9})
-    sheet.merge_cells("B#{footer_row_index + 7}:K#{footer_row_index + 7}")
+    sheet.merge_cells("B#{footer_row_index + 7}:K#{footer_row_index + 8}")
     add_cell(sheet, "B#{footer_row_index + 7}", "Примечания (11): (напр., товар, подлежащий карантину/санитарному, фитосанитарному контролю или попадающий под другие ограничения)", {size: 9})
-    sheet.merge_cells("B#{footer_row_index + 8}:K#{footer_row_index + 8}")
+    # sheet.merge_cells("B#{footer_row_index + 8}:K#{footer_row_index + 8}")
 
     sheet.merge_cells("L#{footer_row_index}:O#{footer_row_index}")
     add_cell(sheet, "L#{footer_row_index}", "Office of origin/Date of posting", {size: 8})
@@ -391,46 +416,143 @@ wb.styles do |s|
     add_cell(sheet, "L#{footer_row_index + 1}", "Учреждение подачи/Дата подачи", {size: 8})
     sheet.merge_cells("L#{footer_row_index + 2}:O#{footer_row_index + 2}")
     sheet.merge_cells("L#{footer_row_index + 3}:O#{footer_row_index + 3}")
-    add_cell(sheet, "L#{footer_row_index + 3}", "HAMBURG E KAZPOST", {bold: true, size: 8}, centered_cell)
+    add_cell(sheet, "L#{footer_row_index + 3}", "HAMBURG E KAZPOST", {bold: true, size: 8})
     sheet.merge_cells("L#{footer_row_index + 4}:O#{footer_row_index + 4}")
-    add_cell(sheet, "L#{footer_row_index + 4}", Date.today.strftime("%d.%m.%Y"), {bold: true, size: 8}, centered_cell)
-    sheet.merge_cells("L#{footer_row_index + 5}:O#{footer_row_index + 8}")
+    add_cell(sheet, "L#{footer_row_index + 4}", Date.today.strftime("%d.%m.%Y"), {bold: true, size: 8})
+    sheet.merge_cells("L#{footer_row_index + 5}:O#{footer_row_index + 7}")
 
-    sheet.merge_cells("B#{footer_row_index + 9}:K#{footer_row_index + 9}")
-    sheet.merge_cells("B#{footer_row_index + 10}:B#{footer_row_index + 11}")
-    add_cell(sheet, "C#{footer_row_index + 10}", "Licence (12)", {size: 7})
-    add_cell(sheet, "C#{footer_row_index + 11}", "Лицензия (12)")
-    add_cell(sheet, "B#{footer_row_index + 12}", "No(s). Of licence(s)/№ лицензии (-ий)", {size: 7})
 
-    sheet.merge_cells("E#{footer_row_index + 10}:E#{footer_row_index+11}")
-    add_cell(sheet, "F#{footer_row_index + 10}", "Certificate (13)", {size: 7})
-    add_cell(sheet, "F#{footer_row_index + 11}", "Сертификат (13)")
-    add_cell(sheet, "E#{footer_row_index + 12}", "No(s). Of certificate(s)/№ сертификата", {size: 7})
+    sheet.merge_cells("B#{footer_row_index + 9}:B#{footer_row_index + 10}")
 
-    sheet.merge_cells("H#{footer_row_index + 10}:H#{footer_row_index+11}")
-    add_cell(sheet, "I#{footer_row_index + 10}", "Invoice  (14)", {size: 7})
-    add_cell(sheet, "I#{footer_row_index + 11}", "Счет (14)")
-    add_cell(sheet, "H#{footer_row_index + 12}", "No. of invoice/№ счета", {size: 7})
+    add_cell(sheet, "C#{footer_row_index + 9}", "Licence (12)", {size: 7})
+    add_cell(sheet, "C#{footer_row_index + 10}", "Лицензия (12)")
+    add_cell(sheet, "B#{footer_row_index + 11}", "No(s). Of licence(s)/№ лицензии (-ий)", {size: 7})
 
-    sheet.merge_cells("L#{footer_row_index + 9}:O#{footer_row_index+9}")
-    add_cell(sheet, "L#{footer_row_index+9}", "I certify that the particulars given in this customs declaration are correct and that this item does not contain any dangerous articles prohibited by legislation or by postal or customs regulations", {size: 7}, top_wrapped_text_cell)
-    sheet.merge_cells("L#{footer_row_index + 10}:O#{footer_row_index+10}")
+    sheet.merge_cells("E#{footer_row_index + 9}:E#{footer_row_index+10}")
+    add_cell(sheet, "F#{footer_row_index + 9}", "Certificate (13)", {size: 7})
+    add_cell(sheet, "F#{footer_row_index + 10}", "Сертификат (13)")
+    add_cell(sheet, "E#{footer_row_index + 11}", "No(s). Of certificate(s)/№ сертификата", {size: 7})
+
+
+    sheet.merge_cells("H#{footer_row_index + 9}:H#{footer_row_index+10}")
+    add_cell(sheet, "I#{footer_row_index + 9}", "Invoice  (14)", {size: 7})
+    add_cell(sheet, "I#{footer_row_index + 10}", "Счет (14)")
+    add_cell(sheet, "H#{footer_row_index + 11}", "No. of invoice/№ счета", {size: 7})
+
+
+    sheet.merge_cells("L#{footer_row_index + 8}:O#{footer_row_index+9}")
+    add_cell(sheet, "L#{footer_row_index+8}", "I certify that the particulars given in this customs declaration are correct and that this item does not contain any dangerous articles prohibited by legislation or by postal or customs regulations", {size: 7}, top_wrapped_text_cell)
+    sheet.merge_cells("L#{footer_row_index + 10}:O#{footer_row_index+11}")
     add_cell(sheet, "L#{footer_row_index+10}", "Я подтверждаю, что указанные в настоящей таможенной декларации сведения являются достоверными, и что в этом отправлении не содержится никаких опасных или запрещенных законодательством или почтовой или таможенной регламентацией предметов ", {size: 7}, top_wrapped_text_cell)
-    sheet.merge_cells("L#{footer_row_index + 11}:M#{footer_row_index+11}")
-    add_cell(sheet, "L#{footer_row_index+11}", "Дата и подпись отправителя (15)", {size: 7}, center_left_wrapped_text)
+    sheet["L#{footer_row_index+10}"].row.height = 20
     sheet.merge_cells("L#{footer_row_index + 12}:M#{footer_row_index+12}")
-    add_cell(sheet, "L#{footer_row_index+12}", Date.today.strftime("%d.%m.%Y"), {size: 10}, center_left_wrapped_text)
+    add_cell(sheet, "L#{footer_row_index+12}", "Дата и подпись отправителя (15)", {size: 7}, center_left_wrapped_text)
+    sheet.merge_cells("L#{footer_row_index + 13}:M#{footer_row_index+13}")
+    add_cell(sheet, "L#{footer_row_index+13}", Date.today.strftime("%d.%m.%Y"), {size: 10}, center_left_wrapped_text)
 
-    sheet.merge_cells("O#{footer_row_index + 11}:P#{footer_row_index+11}")
-    add_cell(sheet, "O#{footer_row_index+11}", "Date and sender’s signature (15)", {size: 7}, center_left_wrapped_text)
+    sheet.merge_cells("N#{footer_row_index + 12}:O#{footer_row_index+12}")
+    add_cell(sheet, "N#{footer_row_index+12}", "Date and sender’s signature (15)", {size: 7}, center_left_wrapped_text)
 
-    sheet.merge_cells("O#{footer_row_index + 12}:P#{footer_row_index+12}")
-    cell = sheet["O#{footer_row_index + 12}"]
+    sheet.merge_cells("N#{footer_row_index + 13}:O#{footer_row_index+13}")
+    cell = sheet["N#{footer_row_index + 13}"]
     add_signature(sheet, *cell.pos)
 
     sheet.sheet_view.show_grid_lines = false
     sheet.page_setup.fit_to :width => 1, :height => 1
-    sheet.column_widths 4, 4, 11, 13, 5, 7, 13, 17, 7, 13, 8.5, 19, 10, 10, 14.5, 4.5, nil
+    sheet.column_widths 4, 4, 12.5, 13, 5, 7, 13, 17, 7, 13, 8.5, 19, 10, 10, 14.5, 4.5, nil
+
+    apply_style(sheet, "D22:H22", get_cell_style(sheet, nil, nil, [:bottom, :top]))
+    apply_style(sheet, "I22", get_cell_style(sheet, nil, nil, [:bottom, :right]))
+    apply_style(sheet, "I21", get_cell_style(sheet, nil, nil, [:top, :right]))
+    apply_style(sheet, "J17:N17", get_cell_style(sheet, nil, nil, [:top]))
+    apply_style(sheet, "J19:N19", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "O17", get_cell_style(sheet, nil, nil, [:top, :right]))
+    apply_style(sheet, "O19", get_cell_style(sheet, nil, nil, [:bottom, :right]))
+    apply_style(sheet, "O18", get_cell_style(sheet, nil, nil, [:right]))
+    apply_style(sheet, "J22:N22", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "O22", get_cell_style(sheet, nil, nil, [:right, :bottom]))
+    apply_style(sheet, "O20:O21", get_cell_style(sheet, nil, nil, [:right]))
+    apply_style(sheet, "C24:E24", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "F24", get_cell_style(sheet, nil, nil, [:bottom, :right]))
+    apply_style(sheet, "I24", get_cell_style(sheet, nil, nil, [:bottom, :right]))
+    apply_style(sheet, "B23", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left]))
+    apply_style(sheet, "B24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left, :bottom]))
+    apply_style(sheet, "G23", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left]))
+    apply_style(sheet, "G24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left, :bottom]))
+    apply_style(sheet, "H23", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left]))
+    apply_style(sheet, "H24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left, :bottom]))
+    apply_style(sheet, "J23", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left]))
+    apply_style(sheet, "J24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left, :bottom]))
+    apply_style(sheet, "K24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:bottom]))
+    apply_style(sheet, "L23", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left]))
+    apply_style(sheet, "O23", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:right]))
+    apply_style(sheet, "L24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left, :bottom, :top]))
+    apply_style(sheet, "N24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:left, :bottom, :top]))
+    apply_style(sheet, "M24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:bottom, :top]))
+    apply_style(sheet, "O24", get_cell_style(sheet, {size: 10}, {vertical: :center}, [:bottom, :top, :right]))
+    apply_style(sheet, "B#{total_row_index}", get_cell_style(sheet, nil, nil, [:left]))
+    apply_style(sheet, "B#{total_row_index + 1}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "C#{total_row_index+1}:F#{total_row_index+1}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "G#{total_row_index}", get_cell_style(sheet, nil, nil, [:left]))
+    apply_style(sheet, "G#{total_row_index+1}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "H#{total_row_index}", get_cell_style(sheet, nil, {vertical: :center, wrap_text: true}, [:left]))
+    apply_style(sheet, "H#{total_row_index+1}", get_cell_style(sheet, nil, {vertical: :center, wrap_text: true}, [:left, :bottom]))
+    apply_style(sheet, "I#{total_row_index}:I#{total_row_index+1}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "J#{total_row_index}", get_cell_style(sheet, nil, {vertical: :center, wrap_text: true}, [:left]))
+    apply_style(sheet, "J#{total_row_index + 1}", get_cell_style(sheet, nil, {vertical: :center, wrap_text: true}, [:left, :bottom]))
+    apply_style(sheet, "K#{total_row_index + 1}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "L#{total_row_index}", get_cell_style(sheet, nil, nil, [:left]))
+    apply_style(sheet, "L#{total_row_index + 1}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "M#{total_row_index+1}:N#{total_row_index+1}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "O#{total_row_index + 1}", get_cell_style(sheet, nil, nil, [:right, :bottom]))
+    apply_style(sheet, "O#{total_row_index}", get_cell_style(sheet, nil, nil, [:right]))
+    apply_style(sheet, "B#{footer_row_index}:B#{footer_row_index+15}", get_cell_style(sheet, nil, nil, [:left]))
+    apply_style(sheet, "L#{footer_row_index}:L#{footer_row_index+15}", get_cell_style(sheet, nil, nil, [:left]))
+    apply_style(sheet, "P#{footer_row_index}:P#{footer_row_index+15}", get_cell_style(sheet, nil, nil, [:left]))
+    apply_style(sheet, "E#{footer_row_index}", get_cell_style(sheet, nil, nil, [:left, :top, :right]))
+    apply_style(sheet, "E#{footer_row_index + 1}", get_cell_style(sheet, nil, nil, [:left, :bottom, :right]))
+    apply_style(sheet, "B#{footer_row_index + 2}", get_cell_style(sheet, nil, nil, [:left, :top, :right]))
+    apply_style(sheet, "B#{footer_row_index + 3}", get_cell_style(sheet, nil, nil, [:left, :bottom, :right]))
+    apply_style(sheet, "E#{footer_row_index + 2}", get_cell_style(sheet, nil, nil, [:left, :top, :right]))
+    apply_style(sheet, "E#{footer_row_index + 3}", get_cell_style(sheet, nil, nil, [:left, :bottom, :right]))
+
+    apply_style(sheet, "B#{footer_row_index + 4}", get_cell_style(sheet, nil, nil, [:left, :top, :right]))
+    apply_style(sheet, "B#{footer_row_index + 5}", get_cell_style(sheet, nil, nil, [:left, :bottom, :right]))
+
+    apply_style(sheet, "C#{footer_row_index + 5}:D#{footer_row_index + 5}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "F#{footer_row_index + 5}:K#{footer_row_index + 5}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "E#{footer_row_index + 4}", get_cell_style(sheet, nil, {vertical: :center, horizontal: :center}, [:left, :top, :right]))
+    apply_style(sheet, "E#{footer_row_index + 5}", get_cell_style(sheet, nil, nil, [:left, :bottom, :right]))
+    apply_style(sheet, "B#{footer_row_index + 6}", get_cell_style(sheet, nil, nil, [:left, :top, :right]))
+    apply_style(sheet, "B#{footer_row_index + 7}", get_cell_style(sheet, nil, nil, [:left, :bottom, :right]))
+    apply_style(sheet, "L#{footer_row_index + 3}", get_cell_style(sheet, nil, {vertical: :center, horizontal: :center}, [:left]))
+    apply_style(sheet, "L#{footer_row_index + 4}", get_cell_style(sheet, nil, {vertical: :center, horizontal: :center}, [:left]))
+
+    apply_style(sheet, "B#{footer_row_index + 7}", get_cell_style(sheet, nil, {wrap_text: true, vertical: :top}, [:left, :right]))
+    apply_style(sheet, "B#{footer_row_index + 8}:K#{footer_row_index + 8}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "B#{footer_row_index + 8}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "K#{footer_row_index + 7}", get_cell_style(sheet, nil, nil, [:right]))
+
+    apply_style(sheet, "L#{footer_row_index + 7}:O#{footer_row_index + 7}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "L#{footer_row_index + 7}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "O#{footer_row_index + 7}", get_cell_style(sheet, nil, nil, [:right, :bottom]))
+
+    apply_style(sheet, "B#{footer_row_index + 9}", get_cell_style(sheet, nil, nil, [:left, :right]))
+    apply_style(sheet, "B#{footer_row_index + 10}", get_cell_style(sheet, nil, nil, [:left, :right, :bottom]))
+    apply_style(sheet, "E#{footer_row_index + 9}", get_cell_style(sheet, nil, nil, [:left, :right]))
+    apply_style(sheet, "E#{footer_row_index + 10}", get_cell_style(sheet, nil, nil, [:left, :right, :bottom]))
+    apply_style(sheet, "H#{footer_row_index + 9}", get_cell_style(sheet, nil, nil, [:left, :right]))
+    apply_style(sheet, "H#{footer_row_index + 10}", get_cell_style(sheet, nil, nil, [:left, :right, :bottom]))
+
+    apply_style(sheet, "B#{footer_row_index + 15}:O#{footer_row_index+15}", get_cell_style(sheet, nil, nil, [:bottom]))
+    apply_style(sheet, "B#{footer_row_index + 15}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "O#{footer_row_index + 15}", get_cell_style(sheet, nil, nil, [:right, :bottom]))
+    apply_style(sheet, "L#{footer_row_index+8}", get_cell_style(sheet, nil, {wrap_text: true, vertical: :top}, [:left]))
+    apply_style(sheet, "L#{footer_row_index+10}", get_cell_style(sheet, nil, {wrap_text: true, vertical: :top}, [:left]))
+    apply_style(sheet, "B3", get_cell_style(sheet, nil, nil, [:left, :top]))
+    apply_style(sheet, "B13", get_cell_style(sheet, nil, nil, [:left, :top]))
+    apply_style(sheet, "B14", get_cell_style(sheet, nil, nil, [:left, :bottom]))
+    apply_style(sheet, "L#{footer_row_index + 15}", get_cell_style(sheet, nil, nil, [:left, :bottom]))
   end
 end
 
